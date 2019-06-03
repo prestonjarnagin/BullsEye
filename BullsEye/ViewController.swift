@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var currentValue = 0
     var targetValue = 0
     var score = 0
-    var currentRound = 1
+    var currentRound = 0
     
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var targetLabel: UILabel!
@@ -21,12 +21,28 @@ class ViewController: UIViewController {
     @IBOutlet weak var roundLabel: UILabel!
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        let roundedValue = slider.value.rounded()
-        currentValue = Int(roundedValue)
-        targetValue = Int.random(in: 1...100)
-        startNewRound()
+      super.viewDidLoad()
+      // Do any additional setup after loading the view.
+      let roundedValue = slider.value.rounded()
+      currentValue = Int(roundedValue)
+      targetValue = Int.random(in: 1...100)
+      startOver()
+      
+      let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
+      slider.setThumbImage(thumbImageNormal, for: .normal)
+      
+      let thumbImageHighlighted = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+      slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
+      
+      let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+      
+      let trackLeftImage = #imageLiteral(resourceName: "SliderTrackLeft")
+      let trackLeftResizable = trackLeftImage.resizableImage(withCapInsets: insets)
+      slider.setMinimumTrackImage(trackLeftResizable, for: .normal)
+      
+      let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
+      let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+      slider.setMaximumTrackImage(trackRightResizable, for: .normal)
     }
 
     @IBAction func showAlert(){
@@ -76,14 +92,20 @@ class ViewController: UIViewController {
         targetValue = Int.random(in: 1...100)
         currentValue = 50
         slider.value = Float(currentValue)
-        updateLabels()
         currentRound += 1
+        updateLabels()
     }
     
     func updateLabels(){
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
         roundLabel.text = String(currentRound)
+    }
+    
+    @IBAction func startOver(){
+        score = 0
+        currentRound = 0
+        startNewRound()
     }
 }
 
