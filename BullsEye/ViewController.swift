@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var roundLabel: UILabel!
 
     override func viewDidLoad() {
+      
       super.viewDidLoad()
       // Do any additional setup after loading the view.
       let roundedValue = slider.value.rounded()
